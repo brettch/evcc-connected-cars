@@ -12,6 +12,6 @@ cd "$script_dir"
 ./refresh-data.sh
 
 # Return the field.
-charge_percentage=$(jq -r .data.vehicle.charge_percentage.pct data/response.json)
+charge_percentage=$(jq -r .data.vehicle.chargePercentage.pct data/response.json)
 echo "Charge percentage: $charge_percentage%" >&2
 echo "$charge_percentage"
