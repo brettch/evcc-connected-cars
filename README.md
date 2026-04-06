@@ -71,6 +71,6 @@ vehicles:
 
 See [Connected Cars API Documentation](https://docs.connectedcars.io/) for details on Connected Cars API and their usage.
 
-The GraphQL API exposes the Graphiql UI which can be accessed via `https://api.connectedcars.io/graphql/graphiql/`. Use the "Connected Cars" tab on the left to authenticate which will then set the appropriate request headers for GraphQL requests.
+The [GraphiQL UI](https://api.connectedcars.io/graphql/graphiql/) can be used to interactively interact with the GraphQL API. Use the "Connected Cars" tab on the left to authenticate which will set the appropriate request headers for GraphQL requests.
 
-In some cases API examples fail to include mandatory headers. These include `Content-Type` which is typically set to `application/json` and `Authorization` which is typically set to `Bearer <auth-token>`.
+In some cases the documented API examples fail to include mandatory headers. These include `Content-Type` which is typically set to `application/json` and `Authorization` which is typically set to `Bearer <auth-token>`.
