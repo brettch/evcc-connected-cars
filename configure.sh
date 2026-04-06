@@ -32,35 +32,35 @@ access_token=$(curl -sS \
   -d "{\"email\":\"$username\",\"password\":\"$password\"}" \
   | jq -r '.token')
 
-# Remove any existing devices with the device name "evcc".
-device_ids=$(curl -sS \
+# Find the next available device name (evcc1, evcc2, ...).
+existing_numbers=$(curl -sS \
   -X GET \
   -H "X-Organization-Namespace: $organisation_namespace" \
   -H "Authorization: Bearer $access_token" \
   https://auth-api.${instance_domain}/user/devices \
-  | jq -r '.[]? | select(.deviceName == "evcc") | .deviceToken // empty')
+  | jq -r '[.[]? | .deviceName | select(test("^evcc[0-9]+$")) | ltrimstr("evcc") | tonumber] | sort | .[]')
 
-for device_id in $device_ids; do
-  echo "Deleting device: $device_id"
-  curl -sS \
-    -X POST \
-    -H "X-Organization-Namespace: $organisation_namespace" \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $access_token" \
-    https://auth-api.${instance_domain}/user/deleteDevice \
-    -d "{\"deviceExternalId\":\"$device_id\"}" \
-    > /dev/null
+n=1
+for num in $existing_numbers; do
+  if [ "$num" -eq "$n" ]; then
+    n=$((n + 1))
+  else
+    break
+  fi
 done
+device_name="evcc${n}"
 
-# Register the new device with the device name "evcc" and get the device token.
+# Register the new device and get the device token.
 device_token=$(curl -sS \
   -X POST \
   -H "X-Organization-Namespace: $organisation_namespace" \
   -H "Authorization: Bearer $access_token" \
   -H 'Content-Type: application/json' \
   https://auth-api.${instance_domain}/user/registerDevice \
-  -d '{"deviceName":"evcc","deviceModel":"evcc.io"}' \
+  -d "{\"deviceName\":\"$device_name\",\"deviceModel\":\"evcc.io\"}" \
   | jq -r '.deviceToken')
+
+echo "Registered device: $device_name"
 
 # Create the config.json file with the instance domain, organisation namespace, and device token.
 mkdir -p data
@@ -70,3 +70,5 @@ jq -n \
   --arg device_token "$device_token" \
   '{"instance_domain": $instance_domain, "organisation_namespace": $organisation_namespace, "device_token": $device_token}' \
   > data/config.json
+
+echo "Configuration saved: $script_dir/data/config.json"
