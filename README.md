@@ -58,7 +58,10 @@ vehicles:
     source: script
     cmd: /mypath/get-charge-percentage.sh
     timeout: 10s
-#  status:
+  status:
+    source: script
+    cmd: /mypath/get-charge-status.sh
+    timeout: 10s
   range:
     source: script
     cmd: /mypath/get-range.sh
