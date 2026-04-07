@@ -15,6 +15,7 @@ cd data
 instance_domain=$(jq -r .instance_domain "config.json")
 organisation_namespace=$(jq -r .organisation_namespace "config.json")
 device_token=$(jq -r .device_token "config.json")
+vehicle_id=$(jq -r .vehicle_id "config.json")
 
 # Check the expiry time of the token. If we're within 5 minutes of expiry, get a new token.
 if [ -f token_expiry.txt ]; then
@@ -77,7 +78,7 @@ if [ ! -f data_timestamp.txt ]; then
     -H "Authorization: Bearer $token" \
     -H "x-organization-namespace: $organisation_namespace" \
     -H 'Content-Type: application/json' \
-    --data-raw '{"variables":{"id":"17907"},"query":"query($id: ID!) { vehicle(id: $id) { id chargePercentage { pct } highVoltageBatteryTotalCapacityKwh { kwh } highVoltageBatteryUsableCapacityKwh { kwh } totalEstimatedBatteryCapacity { dashboardRangeKm } odometer { odometer } }}"}' \
+    --data-raw "{\"variables\":{\"id\":\"$vehicle_id\"},\"query\":\"query(\$id: ID!) { vehicle(id: \$id) { id chargePercentage { pct } highVoltageBatteryTotalCapacityKwh { kwh } highVoltageBatteryUsableCapacityKwh { kwh } totalEstimatedBatteryCapacity { dashboardRangeKm } odometer { odometer } }}\"}" \
     --output response.json
 
     # Update the data timestamp
