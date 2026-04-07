@@ -12,6 +12,6 @@ cd "$script_dir"
 ./refresh-data.sh
 
 # Return the field.
-range_km=$(jq -r .data.vehicle.totalEstimatedBatteryCapacity.dashboardRangeKm data/response.json)
+range_km=$(jq -r .data.vehicle.rangeTotalKm.km data/response.json)
 echo "Range: $range_km km" >&2
 echo "$range_km"

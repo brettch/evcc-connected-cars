@@ -78,7 +78,7 @@ if [ ! -f data_timestamp.txt ]; then
     -H "Authorization: Bearer $token" \
     -H "x-organization-namespace: $organisation_namespace" \
     -H 'Content-Type: application/json' \
-    --data-raw "{\"variables\":{\"id\":\"$vehicle_id\"},\"query\":\"query(\$id: ID!) { vehicle(id: \$id) { id chargePercentage { pct } highVoltageBatteryTotalCapacityKwh { kwh } highVoltageBatteryUsableCapacityKwh { kwh } totalEstimatedBatteryCapacity { dashboardRangeKm } odometer { odometer } }}\"}" \
+    --data-raw "{\"variables\":{\"id\":\"$vehicle_id\"},\"query\":\"query(\$id: ID!) { vehicle(id: \$id) { id chargePercentage { pct } highVoltageBatteryTotalCapacityKwh { kwh } odometer { odometer } rangeTotalKm { km } }}\"}" \
     --output response.json
 
     # Update the data timestamp
