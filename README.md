@@ -31,12 +31,14 @@ Run `configure.sh` and provide the following arguments (it will prompt for passw
 * Username
 
 This script will perform the following steps:
-* Remove any existing devices named "evcc" registered to your Connected Cars user.
-* Create a new device named "evcc" against your Connected Cars user.
+* Create a new device named "evccN" (where N is next unused number) against your Connected Cars user.
 * Create a data directory.
+* Search for and find the ID of your vehicle.
 * Create a `config.json` with all parameters and tokens required by the scripts.
 
 Test the configuration by running the various `get-*` scripts. You may also run `refresh-data.sh` directly.
+
+Note that each time you run `configure.sh` it will register a new EVCC device. You may run `list-devices.sh` to see existing EVCC device registrations and `delete-device.sh` if you wish to remove a registration.
 
 In `evcc.yaml` (or via the UI), configure your car as a `custom` vehicle. Configure the following fields to use a `script` source pointing at the relevant `get-*` script.
 
