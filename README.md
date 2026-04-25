@@ -2,6 +2,8 @@
 
 Provides [Connected Cars](https://connectedcars.io/) [API](https://connectedcars.io/api/) support for the [EVCC](https://evcc.io/) EV charge management software.
 
+**Note:** As of 16th April, 2026, Connected Cars support has been added to EVCC directly. The scripts in this repository are still required to generate and test device tokens.
+
 ## Background
 
 Connected Cars provides a solution for accessing and analysing data obtained from car fleets. It is an end to end solution that includes in-car hardware, central infrastructure and APIs for collecting and analysing data, and mobile applications for end users.
@@ -23,7 +25,7 @@ You will need the following Connected Cars details before proceeding:
 
 ## Setup
 
-Copy all files in this repository to a location of your choice accessible by EVCC.
+### Device Registration
 
 Run `configure.sh` and provide the following arguments (it will prompt for password):
 * Instance domain
@@ -39,6 +41,14 @@ This script will perform the following steps:
 Test the configuration by running the various `get-*` scripts. You may also run `refresh-data.sh` directly.
 
 Note that each time you run `configure.sh` it will register a new EVCC device. You may run `list-devices.sh` to see existing EVCC device registrations and `delete-device.sh` if you wish to remove a registration.
+
+### EVCC Vehicle Setup
+
+The `device_token` field in `config.json` may be used within EVCC. To add a car to EVCC, enter the Configuration screen, add a new vehicle, and choose the "Connected Cars (Volkswagen Australia)" item from the manufacturer dropdown. Enter the device token into the Device Token field and fill out other fields as required.
+
+### EVCC Integration (Obsolete)
+
+**Note:** These steps are now obsolete because EVCC supports the Connected Cars API directly.
 
 In `evcc.yaml` (or via the UI), configure your car as a `custom` vehicle. Configure the following fields to use a `script` source pointing at the relevant `get-*` script.
 
